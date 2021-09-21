@@ -54,7 +54,6 @@ public class AlgoritmoIBK {
         System.out.println(ibkEvolution.toSummaryString());
         this.evoInicial = ibkEvolution;
 
-
         System.out.print(" A expressão da entrada de dados ");
         System.out.println(k3);
         this.dadosIbk = k3;

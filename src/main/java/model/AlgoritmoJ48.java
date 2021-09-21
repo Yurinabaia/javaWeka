@@ -47,7 +47,6 @@ public class AlgoritmoJ48 {
         System.out.println("Avaliacao cruzada:\n");
         this.evaInicial = avaliacao;
 
-
         Evaluation avalCruzada;
         avalCruzada=new Evaluation(dados);
         avalCruzada.crossValidateModel(tree, dados, 10, new Random(1));

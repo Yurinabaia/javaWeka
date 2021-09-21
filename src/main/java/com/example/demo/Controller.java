@@ -7,15 +7,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import model.AlgoritmoBayesiano;
-import model.AlgoritmoIBK;
-import model.AlgoritmoJ48;
-import model.Arquivo;
+import model.*;
 import org.w3c.dom.Text;
+import weka.classifiers.rules.ZeroR;
 
 
 import java.io.File;
@@ -33,17 +32,24 @@ public class Controller implements Initializable {
     @FXML
     private GridPane gridMatrixConfuse =new GridPane();
     @FXML
-    private  Label textDados;
+    private  TextArea textDados;
     @FXML
     private  Label labelArvore;
     @FXML
-    private  Label labelImprimirArvore;
+    private  TextArea labelImprimirArvore;
+    @FXML
+    private TextArea matrix;
+
+
 
 
     public void limparDados ()
     {
         labelImprimirArvore.setText("");
         textDados.setText("");
+        labelImprimirArvore.setVisible(false);
+        textDados.setVisible(false);
+        labelArvore.setVisible(false);
     }
     //Algoritmos Lazy
      public void pressBayse (ActionEvent event)
@@ -57,9 +63,16 @@ public class Controller implements Initializable {
 
             try {
                 limparDados();
-                labelArvore.setVisible(false);
+                textDados.setVisible(true);
+
                 metodoMatrizConfusao(algBasin.lazyBaysiano());
-                textDados.setText(algBasin.getInfoBayer().toString());
+                String predicao = algBasin.getPredicao() != 0.0 ? "Predição:" + String.valueOf(algBasin.getPredicao()) : "";
+                textDados.setText(algBasin.getInfoBayer().toString() + "\n" + predicao +
+                                "\n" + algBasin.getEvDados().toSummaryString()
+                                + "\n-->Instancias corretas: " + algBasin.getEvDados().correct()
+
+                        );
+
             } catch (Exception ex) {
                 labelMatrizConfusao.setVisible(false);
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error, este arquivo não é um dataset  !!", ButtonType.OK);
@@ -81,12 +94,13 @@ public class Controller implements Initializable {
             try {
                 limparDados();
                 metodoMatrizConfusao(algIbk.lazyIbk());
-                labelArvore.setVisible(false);
-                textDados.setText(algIbk.getEvoInicial().toSummaryString());
+                textDados.setVisible(true);
+                textDados.setText(algIbk.getDadosIbk() + "\n" + algIbk.getEvoInicial().toSummaryString() + "\n-->Instancias corretas: " +
+                        algIbk.getEvoInicial().correct());
 
             } catch (Exception ex) {
                 labelMatrizConfusao.setVisible(false);
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Error, este arquivo não é um dataset  !!", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Erro inexperado !!", ButtonType.OK);
                 alert.showAndWait();
                 ex.printStackTrace();
             }
@@ -95,14 +109,13 @@ public class Controller implements Initializable {
 
 
     //Algoritmos Arvores
-
     public void pressJ48 (ActionEvent event)
     {
 
         File selectedFile = abrirArquivo();
         if (selectedFile != null) {
             Arquivo arq = lerDados(selectedFile);
-           //arq.imprimeDados();
+           arq.imprimeDados();
 
 
             AlgoritmoJ48 algJ48 = new AlgoritmoJ48(arq.getDados());
@@ -111,8 +124,11 @@ public class Controller implements Initializable {
                 limparDados();
                 metodoMatrizConfusao(algJ48.arvoreDeDecisaoJ48());
                 labelArvore.setVisible(true);
-                labelImprimirArvore.setText(algJ48.getArvore().toString());
-
+                labelArvore.setText("Arvoré de decisão:");
+                labelImprimirArvore.setVisible(true);
+                labelImprimirArvore.setText(algJ48.getArvore().toString()
+                                + "\n" +algJ48.getEvaInicial().toSummaryString()
+                                + "\n-->Instancias corretas: " + algJ48.getEvaInicial().correct());
             } catch (Exception ex) {
                 labelMatrizConfusao.setVisible(false);
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error, este arquivo não é um dataset  !!", ButtonType.OK);
@@ -122,7 +138,36 @@ public class Controller implements Initializable {
         }
     }
 
+    public void pressZeroR (ActionEvent event)
+    {
 
+        File selectedFile = abrirArquivo();
+        if (selectedFile != null) {
+            Arquivo arq = lerDados(selectedFile);
+            arq.imprimeDados();
+
+
+            AlgoritmoZeroR algZeroR = new AlgoritmoZeroR(arq.getDados());
+
+            try {
+                limparDados();
+                metodoMatrizConfusao(algZeroR.zeroR());
+                labelArvore.setVisible(true);
+                labelArvore.setText("Informações Zero R");
+                labelImprimirArvore.setVisible(true);
+                labelImprimirArvore.setText(algZeroR.getDadosZeroR().toString() + "\n" +
+                        algZeroR.getEvaInicial().toSummaryString()
+                        + "\n-->Instancias corretas: " + algZeroR.getEvaInicial().correct());
+                matrix.setText(algZeroR.getEvaInicial().toMatrixString());
+
+            } catch (Exception ex) {
+                labelMatrizConfusao.setVisible(false);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error,  !!", ButtonType.OK);
+                alert.showAndWait();
+                ex.printStackTrace();
+            }
+        }
+    }
 
 
     public File abrirArquivo()
@@ -210,5 +255,13 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         labelMatrizConfusao.setVisible(false);
         labelArvore.setVisible(false);
+
+
+        //TextArea
+        textDados.setEditable(false);
+        textDados.setVisible(false);
+        labelImprimirArvore.setEditable(false);
+        labelImprimirArvore.setVisible(false);
+
     }
 }
