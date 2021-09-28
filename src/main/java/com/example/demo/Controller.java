@@ -127,6 +127,86 @@ public class Controller implements Initializable {
         }
     }
 
+    public void pressKStar ()
+    {
+
+        File selectedFile = abrirArquivo();
+        if (selectedFile != null) {
+            Arquivo arq = lerDados(selectedFile);
+            //arq.imprimeDados();
+
+
+            AlgoritmoKStar algKStar = new AlgoritmoKStar(arq.getDados(), arq.getQuantidadeDeAtributos());
+            try {
+                limparDados();
+                algKStar.lazyIbk();
+                matrix.setText(algKStar.getEvoInicial().toMatrixString(""));
+                matrix.setVisible(true);
+                labelMatrizConfusao.setVisible(true);
+
+
+                textDados.setVisible(true);
+                textDados.setText(
+                        "Atributos do data set " + algKStar.getEvoInicial().getHeader()
+                                + "\n" + algKStar.getDadosKStar()
+                                + "\n" + algKStar.getEvoInicial().toSummaryString()
+                                + "\n--> Total de instancia " + algKStar.getEvoInicial().numInstances()
+                                + "\n--> Instancias corretas: " + algKStar.getEvoInicial().correct()
+                                + "\n Details " + algKStar.getEvoInicial().toClassDetailsString()
+                                + "\n Revision " + algKStar.getEvoInicial().getRevision()
+                                + "\n Batch size " + algKStar.getDadosKStar().getBatchSize()
+                                + "\n Predição " + algKStar.getEvoInicial().predictions()
+                );
+
+            } catch (Exception ex) {
+                limparDados ();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Erro inexperado !!", ButtonType.OK);
+                alert.showAndWait();
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void pressKLWL ()
+    {
+
+        File selectedFile = abrirArquivo();
+        if (selectedFile != null) {
+            Arquivo arq = lerDados(selectedFile);
+            //arq.imprimeDados();
+
+
+            AlgoritmoLWL algLWL = new AlgoritmoLWL(arq.getDados(), arq.getQuantidadeDeAtributos());
+            try {
+                limparDados();
+                algLWL.lazyIbk();
+                matrix.setText(algLWL.getEvoInicial().toMatrixString(""));
+                matrix.setVisible(true);
+                labelMatrizConfusao.setVisible(true);
+
+
+                textDados.setVisible(true);
+                textDados.setText(
+                        "Atributos do data set " + algLWL.getEvoInicial().getHeader()
+                                + "\n" + algLWL.getDadosLWL()
+                                + "\n" + algLWL.getEvoInicial().toSummaryString()
+                                + "\n--> Total de instancia " + algLWL.getEvoInicial().numInstances()
+                                + "\n--> Instancias corretas: " + algLWL.getEvoInicial().correct()
+                                + "\n Details " + algLWL.getEvoInicial().toClassDetailsString()
+                                + "\n Revision " + algLWL.getEvoInicial().getRevision()
+                                + "\n Batch size " + algLWL.getDadosLWL().getBatchSize()
+                                + "\n Predição " + algLWL.getEvoInicial().predictions()
+                );
+
+            } catch (Exception ex) {
+                limparDados ();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Erro inexperado !!", ButtonType.OK);
+                alert.showAndWait();
+                ex.printStackTrace();
+            }
+        }
+    }
+
 
     //Algoritmos Arvores
     // public void pressJ48 (ActionEvent event)
@@ -193,7 +273,7 @@ public class Controller implements Initializable {
 
 
                 labelArvore.setVisible(true);
-                labelArvore.setText("Informações Zero R");
+                labelArvore.setText("Informações algoritmo Zero R");
                 labelImprimirArvore.setVisible(true);
                 labelImprimirArvore.setText(
                         "Atributos do data set " + algZeroR.getEvaInicial().getHeader()
@@ -217,6 +297,95 @@ public class Controller implements Initializable {
         }
     }
 
+
+    public void pressREPTree ()
+    {
+
+        File selectedFile = abrirArquivo();
+        if (selectedFile != null) {
+            Arquivo arq = lerDados(selectedFile);
+            arq.imprimeDados();
+
+
+            AlgoritmoREPTree algREPTree = new AlgoritmoREPTree(arq.getDados());
+
+            try {
+                limparDados();
+                algREPTree.zeroR();
+                matrix.setText(algREPTree.getEvaInicial().toMatrixString(""));
+                matrix.setVisible(true);
+                labelMatrizConfusao.setVisible(true);
+
+
+                labelArvore.setVisible(true);
+                labelArvore.setText("Informações algoritmo REPTree");
+                labelImprimirArvore.setVisible(true);
+                labelImprimirArvore.setText(
+                        "Atributos do data set " + algREPTree.getEvaInicial().getHeader()
+                                + "\n " +algREPTree.getDadosREPTree().toString()
+                                + "\n" + algREPTree.getEvaInicial().toSummaryString()
+                                + "\n--> Total de instancia " + algREPTree.getEvaInicial().numInstances()
+                                + "\n--> Instancias corretas: " + algREPTree.getEvaInicial().correct()
+                                + "\n Details " + algREPTree.getEvaInicial().toClassDetailsString()
+                                + "\n Revision " + algREPTree.getEvaInicial().getRevision()
+                                + "\n Batch size " + algREPTree.getDadosREPTree().getBatchSize()
+                                + "\n Predição " + algREPTree.getEvaInicial().predictions()
+                        //+ "\n " + algZeroR.getEvaInicial().getPluginMetrics()
+                );
+
+            } catch (Exception ex) {
+                limparDados ();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error,  !!", ButtonType.OK);
+                alert.showAndWait();
+                ex.printStackTrace();
+            }
+        }
+    }
+
+
+    public void pressLMT ()
+    {
+
+        File selectedFile = abrirArquivo();
+        if (selectedFile != null) {
+            Arquivo arq = lerDados(selectedFile);
+            arq.imprimeDados();
+
+
+            AlgoritmoLMT algLMT = new AlgoritmoLMT(arq.getDados());
+
+            try {
+                limparDados();
+                algLMT.zeroR();
+                matrix.setText(algLMT.getEvaInicial().toMatrixString(""));
+                matrix.setVisible(true);
+                labelMatrizConfusao.setVisible(true);
+
+
+                labelArvore.setVisible(true);
+                labelArvore.setText("Informações algoritmo LMT");
+                labelImprimirArvore.setVisible(true);
+                labelImprimirArvore.setText(
+                        "Atributos do data set " + algLMT.getEvaInicial().getHeader()
+                                + "\n " +algLMT.getDadosLMT().toString()
+                                + "\n" + algLMT.getEvaInicial().toSummaryString()
+                                + "\n--> Total de instancia " + algLMT.getEvaInicial().numInstances()
+                                + "\n--> Instancias corretas: " + algLMT.getEvaInicial().correct()
+                                + "\n Details " + algLMT.getEvaInicial().toClassDetailsString()
+                                + "\n Revision " + algLMT.getEvaInicial().getRevision()
+                                + "\n Batch size " + algLMT.getDadosLMT().getBatchSize()
+                                + "\n Predição " + algLMT.getEvaInicial().predictions()
+                        //+ "\n " + algZeroR.getEvaInicial().getPluginMetrics()
+                );
+
+            } catch (Exception ex) {
+                limparDados ();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error,  !!", ButtonType.OK);
+                alert.showAndWait();
+                ex.printStackTrace();
+            }
+        }
+    }
 
     public File abrirArquivo()
     {

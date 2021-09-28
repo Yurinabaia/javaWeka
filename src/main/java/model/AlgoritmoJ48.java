@@ -2,13 +2,12 @@ package model;
 
 import weka.classifiers.Evaluation;
 import weka.classifiers.trees.J48;
-import weka.core.Instance;
 import weka.core.Instances;
 
 import java.util.Random;
 
 public class AlgoritmoJ48 {
-    private Instances dados;
+    private final Instances dados;
     private J48 arvore;
     private Evaluation evaInicial;
     private  Evaluation evaCruzada;
@@ -31,7 +30,7 @@ public class AlgoritmoJ48 {
     }
 
 
-    public double[][] arvoreDeDecisaoJ48() throws Exception
+    public void arvoreDeDecisaoJ48() throws Exception
     {
         J48 tree=new J48();
         tree.buildClassifier(dados);
@@ -64,7 +63,7 @@ public class AlgoritmoJ48 {
             System.out.println(" ");
         }
  */
-        return avalCruzada.confusionMatrix();
+        //avalCruzada.confusionMatrix();
     }
 
 }

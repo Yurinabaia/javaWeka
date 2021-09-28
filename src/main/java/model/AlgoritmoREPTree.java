@@ -1,17 +1,16 @@
 package model;
 
 import weka.classifiers.Evaluation;
-import weka.classifiers.rules.ZeroR;
+import weka.classifiers.trees.REPTree;
 import weka.core.Instances;
 
-public class AlgoritmoZeroR {
-
+public class AlgoritmoREPTree {
     private final Instances dados;
-    private ZeroR dadosZeroR;
+    private REPTree dadisREPTree;
     private Evaluation evaInicial;
 
-    public ZeroR getDadosZeroR() {
-        return dadosZeroR;
+    public REPTree getDadosREPTree() {
+        return dadisREPTree;
     }
 
     public Evaluation getEvaInicial() {
@@ -19,27 +18,27 @@ public class AlgoritmoZeroR {
     }
 
 
-    public  AlgoritmoZeroR (Instances dados)
+    public  AlgoritmoREPTree (Instances dados)
     {
         this.dados = dados;
     }
 
     public void zeroR () throws Exception
     {
-        ZeroR zeroR = new ZeroR();
+        REPTree repTree = new REPTree();
         Instances val = new Instances(dados);
-        zeroR.buildClassifier(val);
+        repTree.buildClassifier(val);
 
-        Evaluation evolTionZero = new Evaluation(val);
-        evolTionZero.evaluateModel(zeroR, dados);
-        this.dadosZeroR = zeroR;
+        Evaluation evolTionREPTree = new Evaluation(val);
+        evolTionREPTree.evaluateModel(repTree, dados);
+        this.dadisREPTree = repTree;
 
         System.out.println("**Bayes Naive  e seu dataset **");
         System.out.println(val.toSummaryString());
         System.out.print(" A expressão dos dados é: ");
-        System.out.println(zeroR);
-       System.out.print("aaaaa" + evolTionZero.toMatrixString());
-        this.evaInicial = evolTionZero;
+        System.out.println(repTree);
+        System.out.print("aaaaa" + evolTionREPTree.toMatrixString());
+        this.evaInicial = evolTionREPTree;
        /* for (int i = 0; i < dados.numInstances(); i++) {
             System.out.println(dados.instance(i));
             double index = bayer.classifyInstance(dados.instance(i));
@@ -47,7 +46,7 @@ public class AlgoritmoZeroR {
             System.out.println(className);
         }*/
 
-        System.out.println("-->Instancias corretas:"+evolTionZero.correct()+"\n");
+        System.out.println("-->Instancias corretas:"+evolTionREPTree.correct()+"\n");
 
 
         /*
@@ -60,6 +59,6 @@ public class AlgoritmoZeroR {
             }
             System.out.println(" ");
         }*/
-        //evolTionZero.confusionMatrix();
+       // evolTionREPTree.confusionMatrix();
     }
 }

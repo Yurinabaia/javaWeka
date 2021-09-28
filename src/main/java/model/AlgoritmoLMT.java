@@ -1,17 +1,16 @@
 package model;
 
 import weka.classifiers.Evaluation;
-import weka.classifiers.rules.ZeroR;
+import weka.classifiers.trees.LMT;
 import weka.core.Instances;
 
-public class AlgoritmoZeroR {
-
+public class AlgoritmoLMT {
     private final Instances dados;
-    private ZeroR dadosZeroR;
+    private LMT dadosLMT;
     private Evaluation evaInicial;
 
-    public ZeroR getDadosZeroR() {
-        return dadosZeroR;
+    public LMT getDadosLMT() {
+        return dadosLMT;
     }
 
     public Evaluation getEvaInicial() {
@@ -19,27 +18,27 @@ public class AlgoritmoZeroR {
     }
 
 
-    public  AlgoritmoZeroR (Instances dados)
+    public  AlgoritmoLMT (Instances dados)
     {
         this.dados = dados;
     }
 
     public void zeroR () throws Exception
     {
-        ZeroR zeroR = new ZeroR();
+        LMT lmt = new LMT();
         Instances val = new Instances(dados);
-        zeroR.buildClassifier(val);
+        lmt.buildClassifier(val);
 
-        Evaluation evolTionZero = new Evaluation(val);
-        evolTionZero.evaluateModel(zeroR, dados);
-        this.dadosZeroR = zeroR;
+        Evaluation evolTionLMT = new Evaluation(val);
+        evolTionLMT.evaluateModel(lmt, dados);
+        this.dadosLMT = lmt;
 
         System.out.println("**Bayes Naive  e seu dataset **");
         System.out.println(val.toSummaryString());
         System.out.print(" A expressão dos dados é: ");
-        System.out.println(zeroR);
-       System.out.print("aaaaa" + evolTionZero.toMatrixString());
-        this.evaInicial = evolTionZero;
+        System.out.println(lmt);
+        System.out.print("aaaaa" + evolTionLMT.toMatrixString());
+        this.evaInicial = evolTionLMT;
        /* for (int i = 0; i < dados.numInstances(); i++) {
             System.out.println(dados.instance(i));
             double index = bayer.classifyInstance(dados.instance(i));
@@ -47,7 +46,7 @@ public class AlgoritmoZeroR {
             System.out.println(className);
         }*/
 
-        System.out.println("-->Instancias corretas:"+evolTionZero.correct()+"\n");
+        System.out.println("-->Instancias corretas:"+evolTionLMT.correct()+"\n");
 
 
         /*
@@ -60,6 +59,6 @@ public class AlgoritmoZeroR {
             }
             System.out.println(" ");
         }*/
-        //evolTionZero.confusionMatrix();
+       // evolTionLMT.confusionMatrix();
     }
 }

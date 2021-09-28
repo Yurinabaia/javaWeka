@@ -8,11 +8,11 @@
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="1148.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Controller">
    <children>
       <Button layoutX="34.0" layoutY="438.0" mnemonicParsing="false" onAction="#pressBayse" text="Algoritmo Naive Bayes" />
-      <Button layoutX="34.0" layoutY="589.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Algoritmo " />
+      <Button layoutX="34.0" layoutY="589.0" mnemonicParsing="false" onAction="#pressKLWL" prefHeight="25.0" prefWidth="136.0" text="Algoritmo LWL" />
       <Button layoutX="34.0" layoutY="494.0" mnemonicParsing="false" onAction="#pressIBK" prefHeight="25.0" prefWidth="136.0" text="Algoritmo IBK" />
-      <Button layoutX="201.0" layoutY="547.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Algoritmo " />
-      <Button layoutX="34.0" layoutY="547.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Algoritmo" />
-      <Button layoutX="201.0" layoutY="589.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Algoritmo " />
+      <Button layoutX="201.0" layoutY="547.0" mnemonicParsing="false" onAction="#pressLMT" prefHeight="25.0" prefWidth="136.0" text="Algoritmo  LMT" />
+      <Button layoutX="34.0" layoutY="547.0" mnemonicParsing="false" onAction="#pressKStar" prefHeight="25.0" prefWidth="136.0" text="Algoritmo KStar" />
+      <Button layoutX="201.0" layoutY="589.0" mnemonicParsing="false" onAction="#pressREPTree" prefHeight="25.0" prefWidth="136.0" text="Algoritmo  REPTree" />
       <Button layoutX="201.0" layoutY="438.0" mnemonicParsing="false" onAction="#pressJ48" prefHeight="25.0" prefWidth="136.0" text="Algoritmo J48" />
       <Label fx:id="labelMatrizConfusao" layoutX="36.0" layoutY="6.0" text="Matriz De Confusão">
          <font>

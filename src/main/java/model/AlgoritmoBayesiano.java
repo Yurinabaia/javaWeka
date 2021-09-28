@@ -2,18 +2,15 @@ package model;
 
 import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
-import weka.classifiers.rules.ZeroR;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class AlgoritmoBayesiano {
-    private Instances dados;
-    private int quantidadeDeAtributos;
+    private final Instances dados;
+    private final int quantidadeDeAtributos;
     private double predicao;
     private  String predicaConfusao;
     private NaiveBayes infoBayer;
@@ -41,7 +38,7 @@ public class AlgoritmoBayesiano {
         this.quantidadeDeAtributos = quantidadeDeAtributos;
     }
 
-    public double[][] lazyBaysiano() throws Exception {
+    public void lazyBaysiano() throws Exception {
 
         NaiveBayes bayer = new NaiveBayes();
         Instances s = new Instances(dados);
@@ -61,7 +58,7 @@ public class AlgoritmoBayesiano {
 
         Evaluation vl = new Evaluation(s);
         vl.evaluateModel(bayer, s);
-        /** Print the algorithm summary */
+
         System.out.println("**Bayes Naive  e seu dataset **");
         System.out.println(vl.toSummaryString());
         this.evDados = vl;
@@ -78,7 +75,7 @@ public class AlgoritmoBayesiano {
 
         System.out.println("-->Instancias corretas:"+vl.correct()+"\n");
 
-        return vl.confusionMatrix();
+       // vl.confusionMatrix();
     }
 
 }
