@@ -1,26 +1,19 @@
 package com.example.demo;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import model.*;
-import org.w3c.dom.Text;
-import weka.classifiers.rules.ZeroR;
+
 
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -28,17 +21,17 @@ public class Controller implements Initializable {
     @FXML
     private  Window stage;
     @FXML
-    private Label labelMatrizConfusao;
-    @FXML
-    private GridPane gridMatrixConfuse =new GridPane();
-    @FXML
     private  TextArea textDados;
     @FXML
     private  Label labelArvore;
     @FXML
+    private Label labelMatrizConfusao;
+    @FXML
     private  TextArea labelImprimirArvore;
     @FXML
     private TextArea matrix;
+
+
 
 
 
@@ -50,9 +43,12 @@ public class Controller implements Initializable {
         labelImprimirArvore.setVisible(false);
         textDados.setVisible(false);
         labelArvore.setVisible(false);
+        matrix.setVisible(false);
+
     }
     //Algoritmos Lazy
-     public void pressBayse (ActionEvent event)
+    //  public void pressBayse  (ActionEvent event) == botão
+     public void pressBayse ()
     {
 
         File selectedFile = abrirArquivo();
@@ -64,24 +60,34 @@ public class Controller implements Initializable {
             try {
                 limparDados();
                 textDados.setVisible(true);
+                matrix.setVisible(true);
+                labelMatrizConfusao.setVisible(true);
 
-                metodoMatrizConfusao(algBasin.lazyBaysiano());
-                String predicao = algBasin.getPredicao() != 0.0 ? "Predição:" + String.valueOf(algBasin.getPredicao()) : "";
-                textDados.setText(algBasin.getInfoBayer().toString() + "\n" + predicao +
+                algBasin.lazyBaysiano();
+                matrix.setText(algBasin.getEvDados().toMatrixString(""));
+
+                String predicao = algBasin.getPredicao() != 0.0 ? "Predição:" + algBasin.getPredicao() : "";
+                textDados.setText(
+                        "Atributos do data set " + algBasin.getEvDados().getHeader()
+                                + "\n" +algBasin.getInfoBayer().toString() + "\n" + predicao +
                                 "\n" + algBasin.getEvDados().toSummaryString()
-                                + "\n-->Instancias corretas: " + algBasin.getEvDados().correct()
-
+                                + "\n--> Total de instancia " + algBasin.getEvDados().numInstances()
+                                + "\n--> Instancias corretas: " + algBasin.getEvDados().correct()
+                                + "\n Details " + algBasin.getEvDados().toClassDetailsString()
+                                + "\n Revision " + algBasin.getEvDados().getRevision()
+                                + "\n Batch size " + algBasin.getInfoBayer().getBatchSize()
+                                + "\n Predição " + algBasin.getEvDados().predictions()
                         );
 
             } catch (Exception ex) {
-                labelMatrizConfusao.setVisible(false);
+                limparDados ();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error, este arquivo não é um dataset  !!", ButtonType.OK);
                 alert.showAndWait();
                 ex.printStackTrace();
             }
         }
     }
-    public void pressIBK (ActionEvent event)
+    public void pressIBK ()
     {
 
         File selectedFile = abrirArquivo();
@@ -93,13 +99,27 @@ public class Controller implements Initializable {
             AlgoritmoIBK algIbk = new AlgoritmoIBK(arq.getDados(), arq.getQuantidadeDeAtributos());
             try {
                 limparDados();
-                metodoMatrizConfusao(algIbk.lazyIbk());
+                algIbk.lazyIbk();
+                matrix.setText(algIbk.getEvoInicial().toMatrixString(""));
+                matrix.setVisible(true);
+                labelMatrizConfusao.setVisible(true);
+
+
                 textDados.setVisible(true);
-                textDados.setText(algIbk.getDadosIbk() + "\n" + algIbk.getEvoInicial().toSummaryString() + "\n-->Instancias corretas: " +
-                        algIbk.getEvoInicial().correct());
+                textDados.setText(
+                        "Atributos do data set " + algIbk.getEvoInicial().getHeader()
+                                + "\n" + algIbk.getDadosIbk()
+                        + "\n" + algIbk.getEvoInicial().toSummaryString()
+                                + "\n--> Total de instancia " + algIbk.getEvoInicial().numInstances()
+                                + "\n--> Instancias corretas: " + algIbk.getEvoInicial().correct()
+                        + "\n Details " + algIbk.getEvoInicial().toClassDetailsString()
+                        + "\n Revision " + algIbk.getEvoInicial().getRevision()
+                        + "\n Batch size " + algIbk.getDadosIbk().getBatchSize()
+                        + "\n Predição " + algIbk.getEvoInicial().predictions()
+                );
 
             } catch (Exception ex) {
-                labelMatrizConfusao.setVisible(false);
+                limparDados ();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Erro inexperado !!", ButtonType.OK);
                 alert.showAndWait();
                 ex.printStackTrace();
@@ -109,7 +129,8 @@ public class Controller implements Initializable {
 
 
     //Algoritmos Arvores
-    public void pressJ48 (ActionEvent event)
+    // public void pressJ48 (ActionEvent event)
+    public void pressJ48 ()
     {
 
         File selectedFile = abrirArquivo();
@@ -122,15 +143,29 @@ public class Controller implements Initializable {
 
             try {
                 limparDados();
-                metodoMatrizConfusao(algJ48.arvoreDeDecisaoJ48());
+                algJ48.arvoreDeDecisaoJ48();
+                matrix.setText(algJ48.getEvaInicial().toMatrixString(""));
+                matrix.setVisible(true);
+                labelMatrizConfusao.setVisible(true);
+
+
+
                 labelArvore.setVisible(true);
                 labelArvore.setText("Arvoré de decisão:");
                 labelImprimirArvore.setVisible(true);
-                labelImprimirArvore.setText(algJ48.getArvore().toString()
+                labelImprimirArvore.setText(
+                        "Atributos do data set " + algJ48.getEvaInicial().getHeader()
+                                + "\n" + algJ48.getArvore().toString()
                                 + "\n" +algJ48.getEvaInicial().toSummaryString()
-                                + "\n-->Instancias corretas: " + algJ48.getEvaInicial().correct());
+                                + "\n--> Total de instancia " + algJ48.getEvaInicial().numInstances()
+                                + "\n--> Instancias corretas: " + algJ48.getEvaInicial().correct()
+                                        + "\n Details " + algJ48.getEvaInicial().toClassDetailsString()
+                                        + "\n Revision " + algJ48.getEvaInicial().getRevision()
+                                        + "\n Batch size " + algJ48.getArvore().getBatchSize()
+                                        + "\n Predição " + algJ48.getEvaInicial().predictions()
+                );
             } catch (Exception ex) {
-                labelMatrizConfusao.setVisible(false);
+                matrix.setVisible(false);
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error, este arquivo não é um dataset  !!", ButtonType.OK);
                 alert.showAndWait();
                 ex.printStackTrace();
@@ -138,7 +173,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void pressZeroR (ActionEvent event)
+    public void pressZeroR ()
     {
 
         File selectedFile = abrirArquivo();
@@ -151,17 +186,30 @@ public class Controller implements Initializable {
 
             try {
                 limparDados();
-                metodoMatrizConfusao(algZeroR.zeroR());
+                algZeroR.zeroR();
+                matrix.setText(algZeroR.getEvaInicial().toMatrixString(""));
+                matrix.setVisible(true);
+                labelMatrizConfusao.setVisible(true);
+
+
                 labelArvore.setVisible(true);
                 labelArvore.setText("Informações Zero R");
                 labelImprimirArvore.setVisible(true);
-                labelImprimirArvore.setText(algZeroR.getDadosZeroR().toString() + "\n" +
-                        algZeroR.getEvaInicial().toSummaryString()
-                        + "\n-->Instancias corretas: " + algZeroR.getEvaInicial().correct());
-                matrix.setText(algZeroR.getEvaInicial().toMatrixString());
+                labelImprimirArvore.setText(
+                        "Atributos do data set " + algZeroR.getEvaInicial().getHeader()
+                                + "\n " +algZeroR.getDadosZeroR().toString()
+                                + "\n" + algZeroR.getEvaInicial().toSummaryString()
+                                + "\n--> Total de instancia " + algZeroR.getEvaInicial().numInstances()
+                                + "\n--> Instancias corretas: " + algZeroR.getEvaInicial().correct()
+                        + "\n Details " + algZeroR.getEvaInicial().toClassDetailsString()
+                        + "\n Revision " + algZeroR.getEvaInicial().getRevision()
+                        + "\n Batch size " + algZeroR.getDadosZeroR().getBatchSize()
+                        + "\n Predição " + algZeroR.getEvaInicial().predictions()
+                        //+ "\n " + algZeroR.getEvaInicial().getPluginMetrics()
+                );
 
             } catch (Exception ex) {
-                labelMatrizConfusao.setVisible(false);
+                limparDados ();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error,  !!", ButtonType.OK);
                 alert.showAndWait();
                 ex.printStackTrace();
@@ -176,8 +224,7 @@ public class Controller implements Initializable {
         configureFileChooser(fileChooser);
 
         fileChooser.setTitle("Open Resource File");
-        File selectedFile = fileChooser.showOpenDialog(stage);
-        return selectedFile;
+        return fileChooser.showOpenDialog(stage);
     }
     private static void configureFileChooser(
             final FileChooser fileChooser) {
@@ -191,7 +238,7 @@ public class Controller implements Initializable {
         );
     }
 
-    public  Arquivo lerDados(File selectedFile)
+    private Arquivo lerDados(File selectedFile)
     {
         System.out.println(selectedFile.getName());
         System.out.println(selectedFile.getAbsolutePath());
@@ -202,52 +249,9 @@ public class Controller implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Arquivo corrompido  !!", ButtonType.OK);
             alert.showAndWait();
             ex.printStackTrace();
-            labelMatrizConfusao.setVisible(false);
+            limparDados();
         }
         return arq;
-    }
-
-    public  void metodoMatrizConfusao(double[][] matriz) throws Exception {
-        labelMatrizConfusao.setVisible(true);
-
-        gridMatrixConfuse.getChildren().clear();
-        RowConstraints rc = new RowConstraints();
-        rc.setPercentHeight(100d / matriz.length);
-        ColumnConstraints cc = new ColumnConstraints();
-        cc.setPercentWidth(100d /  matriz.length);
-        gridMatrixConfuse.getRowConstraints().add(rc);
-        gridMatrixConfuse.getColumnConstraints().add(cc);
-
-        String alfabeto = "ABCDEFGHIJKLMNOPQRSTUVXZWYZ";
-        for (int j = 0; j < matriz.length; j++)
-        {
-            System.out.print("aaaa"+String.valueOf(alfabeto.charAt(j)));
-
-            Label val = new Label();
-            val.setText(String.valueOf(alfabeto.charAt(j)));
-            val.setAlignment(Pos.CENTER);
-            val.setPrefWidth(100);
-            gridMatrixConfuse.setRowIndex(val,0);
-            gridMatrixConfuse.setColumnIndex(val,j);
-            gridMatrixConfuse.getChildren().add(val);
-        }
-
-        for (int i = 0; i < matriz.length; i++)
-        {
-            for (int j = 0; j < matriz.length; j++)
-            {
-                System.out.print(matriz[i][j] + "|");
-                TextField val = new TextField();
-                val.setText(String.valueOf(matriz[i][j]));
-                val.setAlignment(Pos.CENTER);
-                val.setPrefWidth(100);
-                val.setEditable(false);
-                gridMatrixConfuse.setRowIndex(val,i+1);
-                gridMatrixConfuse.setColumnIndex(val,j);
-                gridMatrixConfuse.getChildren().add(val);
-            }
-            System.out.println(" ");
-        }
     }
 
 
@@ -258,8 +262,12 @@ public class Controller implements Initializable {
 
 
         //TextArea
+        matrix.setEditable(false);
+        matrix.setVisible(false);
+
         textDados.setEditable(false);
         textDados.setVisible(false);
+
         labelImprimirArvore.setEditable(false);
         labelImprimirArvore.setVisible(false);
 
