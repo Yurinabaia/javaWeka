@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="javafx-swing-17-ea+15">
+    <CLASSES />
+    <JAVADOC />
+    <NATIVE>
+      <root url="jar://$PROJECT_DIR$/javafx-swing-17-ea+15.jar!/" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>

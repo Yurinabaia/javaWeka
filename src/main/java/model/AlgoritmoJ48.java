@@ -64,6 +64,28 @@ public class AlgoritmoJ48 {
         }
  */
         //avalCruzada.confusionMatrix();
-    }
 
+
+        // display classifier
+        /*final javax.swing.JFrame jf = new javax.swing.JFrame("Weka Classifier Tree Visualizer: J48");
+        jf.setSize(500,400);
+        jf.getContentPane().setLayout(new BorderLayout());
+
+
+        TreeVisualizer tv = new TreeVisualizer(null,
+                tree.graph(),
+                new PlaceNode2());
+
+
+
+        jf.getContentPane().add(tv, BorderLayout.CENTER);
+        jf.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                jf.dispose();
+            }
+        });
+
+        jf.setVisible(true);
+        tv.fitToScreen();*/
+    }
 }

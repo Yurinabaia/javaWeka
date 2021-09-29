@@ -1,19 +1,26 @@
 package com.example.demo;
 
 
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import model.*;
+import weka.gui.treevisualizer.PlaceNode2;
+import weka.gui.treevisualizer.TreeVisualizer;
 
-
-
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.net.URL;
-
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -30,6 +37,39 @@ public class Controller implements Initializable {
     private  TextArea labelImprimirArvore;
     @FXML
     private TextArea matrix;
+    @FXML
+    private Button arvDecisao;
+    @FXML
+    private Button buttonNaive;
+    @FXML
+    private Button buttonJ48;
+    @FXML
+    private Button buttonIBK;
+    @FXML
+    private Button buttonZeroR;
+    @FXML
+    private Button buttonKStar;
+    @FXML
+    private Button buttonLMT;
+    @FXML
+    private Button buttonLWL;
+    @FXML
+    private Button buttonREPTree;
+
+
+
+
+
+
+
+
+
+
+
+
+
+    SwingNode sw = new SwingNode();
+
 
 
 
@@ -44,6 +84,7 @@ public class Controller implements Initializable {
         textDados.setVisible(false);
         labelArvore.setVisible(false);
         matrix.setVisible(false);
+        arvDecisao.setVisible(false);
 
     }
     //Algoritmos Lazy
@@ -117,6 +158,7 @@ public class Controller implements Initializable {
                         + "\n Batch size " + algIbk.getDadosIbk().getBatchSize()
                         + "\n Predição " + algIbk.getEvoInicial().predictions()
                 );
+
 
             } catch (Exception ex) {
                 limparDados ();
@@ -212,6 +254,7 @@ public class Controller implements Initializable {
     // public void pressJ48 (ActionEvent event)
     public void pressJ48 ()
     {
+        ToggleButton button = new ToggleButton("Button #" );
 
         File selectedFile = abrirArquivo();
         if (selectedFile != null) {
@@ -231,7 +274,7 @@ public class Controller implements Initializable {
 
 
                 labelArvore.setVisible(true);
-                labelArvore.setText("Arvoré de decisão:");
+                labelArvore.setText("Informações Do Algoritmo J48");
                 labelImprimirArvore.setVisible(true);
                 labelImprimirArvore.setText(
                         "Atributos do data set " + algJ48.getEvaInicial().getHeader()
@@ -244,6 +287,17 @@ public class Controller implements Initializable {
                                         + "\n Batch size " + algJ48.getArvore().getBatchSize()
                                         + "\n Predição " + algJ48.getEvaInicial().predictions()
                 );
+                String graph = algJ48.getArvore().graph();
+                SwingUtilities.invokeLater(() -> {
+                    TreeVisualizer treeVisualizer = new TreeVisualizer(null, graph, new PlaceNode2());
+                    treeVisualizer.setPreferredSize(new Dimension(600, 500));
+                    sw.setContent(treeVisualizer);
+                });
+                arvDecisao.setVisible(true);
+
+
+
+
             } catch (Exception ex) {
                 matrix.setVisible(false);
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error, este arquivo não é um dataset  !!", ButtonType.OK);
@@ -252,6 +306,7 @@ public class Controller implements Initializable {
             }
         }
     }
+
 
     public void pressZeroR ()
     {
@@ -273,7 +328,7 @@ public class Controller implements Initializable {
 
 
                 labelArvore.setVisible(true);
-                labelArvore.setText("Informações algoritmo Zero R");
+                labelArvore.setText("Informações Do Algoritmo Zero R");
                 labelImprimirArvore.setVisible(true);
                 labelImprimirArvore.setText(
                         "Atributos do data set " + algZeroR.getEvaInicial().getHeader()
@@ -318,7 +373,7 @@ public class Controller implements Initializable {
 
 
                 labelArvore.setVisible(true);
-                labelArvore.setText("Informações algoritmo REPTree");
+                labelArvore.setText("Informações Do Algoritmo REPTree");
                 labelImprimirArvore.setVisible(true);
                 labelImprimirArvore.setText(
                         "Atributos do data set " + algREPTree.getEvaInicial().getHeader()
@@ -330,8 +385,16 @@ public class Controller implements Initializable {
                                 + "\n Revision " + algREPTree.getEvaInicial().getRevision()
                                 + "\n Batch size " + algREPTree.getDadosREPTree().getBatchSize()
                                 + "\n Predição " + algREPTree.getEvaInicial().predictions()
+
                         //+ "\n " + algZeroR.getEvaInicial().getPluginMetrics()
                 );
+                String graph = algREPTree.getDadosREPTree().graph();
+                SwingUtilities.invokeLater(() -> {
+                    TreeVisualizer treeVisualizer = new TreeVisualizer(null, graph, new PlaceNode2());
+                    treeVisualizer.setPreferredSize(new Dimension(600, 500));
+                    sw.setContent(treeVisualizer);
+                });
+                arvDecisao.setVisible(true);
 
             } catch (Exception ex) {
                 limparDados ();
@@ -363,7 +426,7 @@ public class Controller implements Initializable {
 
 
                 labelArvore.setVisible(true);
-                labelArvore.setText("Informações algoritmo LMT");
+                labelArvore.setText("Informações Do Algoritmo LMT");
                 labelImprimirArvore.setVisible(true);
                 labelImprimirArvore.setText(
                         "Atributos do data set " + algLMT.getEvaInicial().getHeader()
@@ -377,6 +440,13 @@ public class Controller implements Initializable {
                                 + "\n Predição " + algLMT.getEvaInicial().predictions()
                         //+ "\n " + algZeroR.getEvaInicial().getPluginMetrics()
                 );
+                String graph = algLMT.getDadosLMT().graph();
+                SwingUtilities.invokeLater(() -> {
+                    TreeVisualizer treeVisualizer = new TreeVisualizer(null, graph, new PlaceNode2());
+                    treeVisualizer.setPreferredSize(new Dimension(600, 500));
+                    sw.setContent(treeVisualizer);
+                });
+                arvDecisao.setVisible(true);
 
             } catch (Exception ex) {
                 limparDados ();
@@ -387,6 +457,31 @@ public class Controller implements Initializable {
         }
     }
 
+
+    //Avore de decisão
+    public void pressArboreDecisao ()
+    {
+        arvoreDecisao();
+    }
+
+
+    public void arvoreDecisao()
+    {
+        StackPane secondaryLayout = new StackPane(sw);
+
+
+        Scene secondScene = new Scene(secondaryLayout,1000,636 );
+
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Arvore de decisão");
+        newWindow.setScene(secondScene);
+
+
+        newWindow.show();
+    }
+
+    //Arquivo
     public File abrirArquivo()
     {
         FileChooser fileChooser = new FileChooser();
@@ -439,6 +534,42 @@ public class Controller implements Initializable {
 
         labelImprimirArvore.setEditable(false);
         labelImprimirArvore.setVisible(false);
+
+
+        //buttons
+        String styleButton = "-fx-padding: 8 15 15 15;\n" +
+                "                -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
+                "                -fx-background-radius: 8;\n" +
+                "                -fx-background-color:\n" +
+                "                linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),\n" +
+                "        #9d4024,\n" +
+                "        #d86e3a,\n" +
+                "                        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);\n" +
+                "                -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
+                "                -fx-font-weight: bold;\n" +
+                "                -fx-font-size: 1.1em;";
+        arvDecisao.setStyle(styleButton);
+        arvDecisao.setVisible(false);
+
+
+        String styleButtonGeral = "-fx-background-color: \n" +
+                "        #c3c4c4,\n" +
+                "        linear-gradient(#d6d6d6 50%, white 100%),\n" +
+                "        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);\n" +
+                "    -fx-background-radius: 30;\n" +
+                "    -fx-background-insets: 0,1,1;\n" +
+                "    -fx-text-fill: black;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );";
+
+        buttonNaive.setStyle(styleButtonGeral);
+        buttonJ48.setStyle(styleButtonGeral);
+        buttonIBK.setStyle(styleButtonGeral);
+        buttonZeroR.setStyle(styleButtonGeral);
+        buttonKStar.setStyle(styleButtonGeral);
+        buttonLMT.setStyle(styleButtonGeral);
+        buttonLWL.setStyle(styleButtonGeral);
+        buttonREPTree.setStyle(styleButtonGeral);
+
 
     }
 }
