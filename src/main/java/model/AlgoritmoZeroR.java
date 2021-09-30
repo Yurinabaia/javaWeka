@@ -8,6 +8,8 @@ public class AlgoritmoZeroR {
 
     private final Instances dados;
     private ZeroR dadosZeroR;
+    private final int quantidadeDeAtributos;
+
     private Evaluation evaInicial;
 
     public ZeroR getDadosZeroR() {
@@ -19,9 +21,18 @@ public class AlgoritmoZeroR {
     }
 
 
-    public  AlgoritmoZeroR (Instances dados)
+    public  AlgoritmoZeroR (Instances dados, int quantidadeDeAtributos)
     {
         this.dados = dados;
+        this.quantidadeDeAtributos = quantidadeDeAtributos;
+    }
+
+    public int getQuantidadeDeAtributos() {
+        return quantidadeDeAtributos;
+    }
+
+    public Instances getDados() {
+        return dados;
     }
 
     public void zeroR () throws Exception

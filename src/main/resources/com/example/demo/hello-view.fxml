@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="1148.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Controller">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="1148.0" style="-fx-background-color: #bababa;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Controller">
    <children>
       <Button fx:id="buttonNaive" layoutX="34.0" layoutY="438.0" mnemonicParsing="false" onAction="#pressBayse" text="Algoritmo Naive Bayes" />
       <Button fx:id="buttonLWL" layoutX="34.0" layoutY="589.0" mnemonicParsing="false" onAction="#pressKLWL" prefHeight="25.0" prefWidth="136.0" text="Algoritmo LWL" />
@@ -42,8 +42,11 @@
             <Font name="Times New Roman Bold Italic" size="16.0" />
          </font>
       </Label>
-      <TextArea fx:id="matrix" layoutX="34.0" layoutY="46.0" prefHeight="203.0" prefWidth="664.0" />
+      <TextArea fx:id="matrix" layoutX="34.0" layoutY="46.0" prefHeight="203.0" prefWidth="302.0" />
       <Button fx:id="arvDecisao" layoutX="34.0" layoutY="330.0" mnemonicParsing="false" onAction="#pressArboreDecisao" prefHeight="25.0" prefWidth="302.0" text="Exibir Árvore De Decisão" />
+      <TextField fx:id="textFieldUser" alignment="TOP_LEFT" cache="true" layoutX="360.0" layoutY="46.0" prefHeight="84.0" prefWidth="338.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px; -fx-border-color: orange;" />
+      <TextArea fx:id="textAreaResult" layoutX="360.0" layoutY="190.0" prefHeight="47.0" prefWidth="338.0" />
+      <Button fx:id="butttonClassifcar" layoutX="599.0" layoutY="135.0" mnemonicParsing="false" onAction="#pressClassificar" prefHeight="25.0" prefWidth="98.0" text="Classificar" />
 
    </children>
 </AnchorPane>

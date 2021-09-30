@@ -20,6 +20,13 @@ public class AlgoritmoLWL {
         return dadosLWL;
     }
 
+    public Instances getDados() {
+        return dados;
+    }
+
+    public int getQuantidadeDeAtributos() {
+        return quantidadeDeAtributos;
+    }
 
     public  AlgoritmoLWL (Instances dados, int quantidadeDeAtributos)
     {

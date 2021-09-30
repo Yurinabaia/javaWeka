@@ -7,6 +7,7 @@ import weka.core.Instances;
 public class AlgoritmoLMT {
     private final Instances dados;
     private LMT dadosLMT;
+    private final int quantidadeDeAtributos;
     private Evaluation evaInicial;
 
     public LMT getDadosLMT() {
@@ -17,10 +18,18 @@ public class AlgoritmoLMT {
         return evaInicial;
     }
 
+    public int getQuantidadeDeAtributos() {
+        return quantidadeDeAtributos;
+    }
 
-    public  AlgoritmoLMT (Instances dados)
+    public Instances getDados() {
+        return dados;
+    }
+
+    public  AlgoritmoLMT (Instances dados, int quantidadeDeAtributos)
     {
         this.dados = dados;
+        this.quantidadeDeAtributos = quantidadeDeAtributos;
     }
 
     public void zeroR () throws Exception

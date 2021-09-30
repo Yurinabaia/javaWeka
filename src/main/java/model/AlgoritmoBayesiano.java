@@ -24,6 +24,14 @@ public class AlgoritmoBayesiano {
         return predicaConfusao;
     }
 
+    public Instances getDados() {
+        return dados;
+    }
+
+    public int getQuantidadeDeAtributos() {
+        return quantidadeDeAtributos;
+    }
+
     public NaiveBayes getInfoBayer() {
         return infoBayer;
     }

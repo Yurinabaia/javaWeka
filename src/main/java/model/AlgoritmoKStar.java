@@ -20,6 +20,13 @@ public class AlgoritmoKStar {
         return dadosKStar;
     }
 
+    public int getQuantidadeDeAtributos() {
+        return quantidadeDeAtributos;
+    }
+
+    public Instances getDados() {
+        return dados;
+    }
 
     public  AlgoritmoKStar (Instances dados, int quantidadeDeAtributos)
     {

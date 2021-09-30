@@ -6,6 +6,7 @@ import weka.core.Instances;
 
 public class AlgoritmoREPTree {
     private final Instances dados;
+    private final int quantidadeDeAtributos;
     private REPTree dadisREPTree;
     private Evaluation evaInicial;
 
@@ -17,11 +18,20 @@ public class AlgoritmoREPTree {
         return evaInicial;
     }
 
+    public int getQuantidadeDeAtributos() {
+        return quantidadeDeAtributos;
+    }
 
-    public  AlgoritmoREPTree (Instances dados)
+    public  AlgoritmoREPTree (Instances dados, int quantidadeDeAtributos)
     {
         this.dados = dados;
+        this.quantidadeDeAtributos = quantidadeDeAtributos;
     }
+
+    public Instances getDados() {
+        return dados;
+    }
+
 
     public void zeroR () throws Exception
     {

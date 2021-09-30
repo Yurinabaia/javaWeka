@@ -4,7 +4,7 @@
   <headerType>gui</headerType>
   <jar>F:\demo\out\artifacts\demo_jar\demo.jar</jar>
   <outfile>F:\demo\wekaAlgoritmos.exe</outfile>
-  <errTitle></errTitle>
+  <errTitle>Dados invalidos</errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
@@ -13,7 +13,7 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Users\Nabaia\OneDrive\Área de Trabalho\icon.ico</icon>
+  <icon>C:\Users\Nabaia\Downloads\icon.ico</icon>
   <jre>
     <path></path>
     <bundledJre64Bit>false</bundledJre64Bit>

@@ -8,12 +8,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import model.*;
+import weka.core.Attribute;
+import weka.core.DenseInstance;
+import weka.core.Instance;
 import weka.gui.treevisualizer.PlaceNode2;
 import weka.gui.treevisualizer.TreeVisualizer;
 
@@ -55,8 +59,24 @@ public class Controller implements Initializable {
     private Button buttonLWL;
     @FXML
     private Button buttonREPTree;
+    @FXML
+    private Button butttonClassifcar;
+    @FXML
+    private TextField textFieldUser;
+    @FXML
+    private TextArea textAreaResult;
 
+    private AlgoritmoBayesiano algoritmoBayesiano;
+    private AlgoritmoIBK algoritmoIBK;
+    private AlgoritmoKStar algoritmoKStar;
+    private AlgoritmoLWL algoritmoLWL;
 
+    private AlgoritmoJ48 algoritmoJ48;
+    private AlgoritmoZeroR algoritmoZeroR;
+    private AlgoritmoREPTree algoritmoREPTree;
+    private AlgoritmoLMT algoritmoLMT;
+
+    private int algoritmoSelecionado;
 
 
 
@@ -80,11 +100,18 @@ public class Controller implements Initializable {
     {
         labelImprimirArvore.setText("");
         textDados.setText("");
+        textFieldUser.setText("");
+        textAreaResult.setText("");
+
+        textAreaResult.setVisible(false);
+        textFieldUser.setVisible(false);
         labelImprimirArvore.setVisible(false);
         textDados.setVisible(false);
         labelArvore.setVisible(false);
         matrix.setVisible(false);
         arvDecisao.setVisible(false);
+        butttonClassifcar.setVisible(false);
+        labelMatrizConfusao.setVisible(false);
 
     }
     //Algoritmos Lazy
@@ -119,6 +146,12 @@ public class Controller implements Initializable {
                                 + "\n Batch size " + algBasin.getInfoBayer().getBatchSize()
                                 + "\n Predição " + algBasin.getEvDados().predictions()
                         );
+
+                textFieldUser.setVisible(true);
+
+                butttonClassifcar.setVisible(true);
+                this.algoritmoBayesiano = algBasin;
+                this.algoritmoSelecionado = 1;
 
             } catch (Exception ex) {
                 limparDados ();
@@ -158,6 +191,11 @@ public class Controller implements Initializable {
                         + "\n Batch size " + algIbk.getDadosIbk().getBatchSize()
                         + "\n Predição " + algIbk.getEvoInicial().predictions()
                 );
+                textFieldUser.setVisible(true);
+
+                butttonClassifcar.setVisible(true);
+                this.algoritmoIBK = algIbk;
+                this.algoritmoSelecionado = 2;
 
 
             } catch (Exception ex) {
@@ -199,6 +237,11 @@ public class Controller implements Initializable {
                                 + "\n Batch size " + algKStar.getDadosKStar().getBatchSize()
                                 + "\n Predição " + algKStar.getEvoInicial().predictions()
                 );
+                textFieldUser.setVisible(true);
+
+                butttonClassifcar.setVisible(true);
+                this.algoritmoKStar = algKStar;
+                this.algoritmoSelecionado = 3;
 
             } catch (Exception ex) {
                 limparDados ();
@@ -239,6 +282,11 @@ public class Controller implements Initializable {
                                 + "\n Batch size " + algLWL.getDadosLWL().getBatchSize()
                                 + "\n Predição " + algLWL.getEvoInicial().predictions()
                 );
+                textFieldUser.setVisible(true);
+
+                butttonClassifcar.setVisible(true);
+                this.algoritmoLWL = algLWL;
+                this.algoritmoSelecionado = 4;
 
             } catch (Exception ex) {
                 limparDados ();
@@ -246,6 +294,7 @@ public class Controller implements Initializable {
                 alert.showAndWait();
                 ex.printStackTrace();
             }
+
         }
     }
 
@@ -254,7 +303,6 @@ public class Controller implements Initializable {
     // public void pressJ48 (ActionEvent event)
     public void pressJ48 ()
     {
-        ToggleButton button = new ToggleButton("Button #" );
 
         File selectedFile = abrirArquivo();
         if (selectedFile != null) {
@@ -262,7 +310,7 @@ public class Controller implements Initializable {
            arq.imprimeDados();
 
 
-            AlgoritmoJ48 algJ48 = new AlgoritmoJ48(arq.getDados());
+            AlgoritmoJ48 algJ48 = new AlgoritmoJ48(arq.getDados(), arq.getQuantidadeDeAtributos());
 
             try {
                 limparDados();
@@ -294,7 +342,11 @@ public class Controller implements Initializable {
                     sw.setContent(treeVisualizer);
                 });
                 arvDecisao.setVisible(true);
+                textFieldUser.setVisible(true);
 
+                butttonClassifcar.setVisible(true);
+                this.algoritmoJ48 = algJ48;
+                this.algoritmoSelecionado = 5;
 
 
 
@@ -317,7 +369,7 @@ public class Controller implements Initializable {
             arq.imprimeDados();
 
 
-            AlgoritmoZeroR algZeroR = new AlgoritmoZeroR(arq.getDados());
+            AlgoritmoZeroR algZeroR = new AlgoritmoZeroR(arq.getDados(),arq.getQuantidadeDeAtributos());
 
             try {
                 limparDados();
@@ -342,6 +394,11 @@ public class Controller implements Initializable {
                         + "\n Predição " + algZeroR.getEvaInicial().predictions()
                         //+ "\n " + algZeroR.getEvaInicial().getPluginMetrics()
                 );
+                textFieldUser.setVisible(true);
+
+                butttonClassifcar.setVisible(true);
+                this.algoritmoZeroR = algZeroR;
+                this.algoritmoSelecionado = 6;
 
             } catch (Exception ex) {
                 limparDados ();
@@ -362,7 +419,7 @@ public class Controller implements Initializable {
             arq.imprimeDados();
 
 
-            AlgoritmoREPTree algREPTree = new AlgoritmoREPTree(arq.getDados());
+            AlgoritmoREPTree algREPTree = new AlgoritmoREPTree(arq.getDados(),arq.getQuantidadeDeAtributos());
 
             try {
                 limparDados();
@@ -396,6 +453,12 @@ public class Controller implements Initializable {
                 });
                 arvDecisao.setVisible(true);
 
+                textFieldUser.setVisible(true);
+
+                butttonClassifcar.setVisible(true);
+                this.algoritmoREPTree = algREPTree;
+                this.algoritmoSelecionado = 7;
+
             } catch (Exception ex) {
                 limparDados ();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error,  !!", ButtonType.OK);
@@ -415,7 +478,7 @@ public class Controller implements Initializable {
             arq.imprimeDados();
 
 
-            AlgoritmoLMT algLMT = new AlgoritmoLMT(arq.getDados());
+            AlgoritmoLMT algLMT = new AlgoritmoLMT(arq.getDados(),arq.getQuantidadeDeAtributos());
 
             try {
                 limparDados();
@@ -448,6 +511,12 @@ public class Controller implements Initializable {
                 });
                 arvDecisao.setVisible(true);
 
+                textFieldUser.setVisible(true);
+
+                butttonClassifcar.setVisible(true);
+                this.algoritmoLMT = algLMT;
+                this.algoritmoSelecionado = 8;
+
             } catch (Exception ex) {
                 limparDados ();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Error,  !!", ButtonType.OK);
@@ -455,6 +524,194 @@ public class Controller implements Initializable {
                 ex.printStackTrace();
             }
         }
+    }
+
+    //Classificar dados
+    public void pressClassificar()  {
+
+        textAreaResult.setVisible(true);
+        try {
+            this.classificar();
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Os dados de classificação não é compativel com dataset !!", ButtonType.OK);
+            alert.showAndWait();
+            ex.printStackTrace();
+            textAreaResult.setText("");
+            textFieldUser.setText("");
+            butttonClassifcar.setVisible(false);
+        }
+    }
+
+    public void classificar() throws Exception
+    {
+        String[] separador = textFieldUser.getText().split(",");
+        double pred;
+        Attribute atribute;
+        String predClass;
+
+        switch (this.algoritmoSelecionado) {
+            case 1 -> {
+                Instance instanceBayse = new DenseInstance(this.algoritmoBayesiano.getQuantidadeDeAtributos());
+                instanceBayse.setDataset(this.algoritmoBayesiano.getDados());
+                for (int i = 0; i < separador.length; i++) {
+                    if (verificarInteiro(separador[i]))
+                        instanceBayse.setValue(i, Double.parseDouble(separador[i]));
+                    else
+                        instanceBayse.setValue(i, separador[i]);
+                }
+                pred = this.algoritmoBayesiano.getInfoBayer().classifyInstance(instanceBayse);
+                System.out.println("Predição: " + separador.length);
+
+
+                //Classificando dados
+                atribute = this.algoritmoBayesiano.getDados().attribute(separador.length);
+                predClass = atribute.value((int) pred);
+                textAreaResult.setText("Predição: " + pred + "\n" + "Classificação " + predClass);
+            }
+            case 2 -> {
+                Instance instanceIBK = new DenseInstance(this.algoritmoIBK.getQuantidadeDeAtributos());
+                instanceIBK.setDataset(this.algoritmoIBK.getDados());
+                for (int i = 0; i < separador.length; i++) {
+                    if (verificarInteiro(separador[i]))
+                        instanceIBK.setValue(i, Double.parseDouble(separador[i]));
+                    else
+                        instanceIBK.setValue(i, separador[i]);
+                }
+                pred = this.algoritmoIBK.getDadosIbk().classifyInstance(instanceIBK);
+                System.out.println("Predição: " + separador.length);
+
+
+                //Classificando dados
+                atribute = this.algoritmoIBK.getDados().attribute(separador.length);
+                predClass = atribute.value((int) pred);
+                textAreaResult.setText("Predição: " + pred + "\n" + "Classificação " + predClass);
+            }
+            case 3 -> {
+                Instance instanceKstar = new DenseInstance(this.algoritmoKStar.getQuantidadeDeAtributos());
+                instanceKstar.setDataset(this.algoritmoKStar.getDados());
+                for (int i = 0; i < separador.length; i++) {
+                    if (verificarInteiro(separador[i]))
+                        instanceKstar.setValue(i, Double.parseDouble(separador[i]));
+                    else
+                        instanceKstar.setValue(i, separador[i]);
+                }
+                pred = this.algoritmoKStar.getDadosKStar().classifyInstance(instanceKstar);
+                System.out.println("Predição: " + separador.length);
+
+
+                //Classificando dados
+                atribute = this.algoritmoKStar.getDados().attribute(separador.length);
+                predClass = atribute.value((int) pred);
+                textAreaResult.setText("Predição: " + pred + "\n" + "Classificação " + predClass);
+            }
+            case 4 -> {
+                Instance instanceLWL = new DenseInstance(this.algoritmoLWL.getQuantidadeDeAtributos());
+                instanceLWL.setDataset(this.algoritmoLWL.getDados());
+                for (int i = 0; i < separador.length; i++) {
+                    if (verificarInteiro(separador[i]))
+                        instanceLWL.setValue(i, Double.parseDouble(separador[i]));
+                    else
+                        instanceLWL.setValue(i, separador[i]);
+                }
+                pred = this.algoritmoLWL.getDadosLWL().classifyInstance(instanceLWL);
+                System.out.println("Predição: " + separador.length);
+
+
+                //Classificando dados
+                atribute = this.algoritmoLWL.getDados().attribute(separador.length);
+                predClass = atribute.value((int) pred);
+                textAreaResult.setText("Predição: " + pred + "\n" + "Classificação " + predClass);
+            }
+            case 5 -> {
+                Instance instanceJ48 = new DenseInstance(this.algoritmoJ48.getQuantidadeDeAtributos());
+                instanceJ48.setDataset(this.algoritmoJ48.getDados());
+                for (int i = 0; i < separador.length; i++) {
+                    if (verificarInteiro(separador[i]))
+                        instanceJ48.setValue(i, Double.parseDouble(separador[i]));
+                    else
+                        instanceJ48.setValue(i, separador[i]);
+                }
+                pred = this.algoritmoJ48.getArvore().classifyInstance(instanceJ48);
+                System.out.println("Predição: " + separador.length);
+
+
+                //Classificando dados
+                atribute = this.algoritmoJ48.getDados().attribute(separador.length);
+                predClass = atribute.value((int) pred);
+                textAreaResult.setText("Predição: " + pred + "\n" + "Classificação " + predClass);
+            }
+            case 6 -> {
+                Instance instanceZeroR = new DenseInstance(this.algoritmoZeroR.getQuantidadeDeAtributos());
+                instanceZeroR.setDataset(this.algoritmoZeroR.getDados());
+                for (int i = 0; i < separador.length; i++) {
+                    if (verificarInteiro(separador[i]))
+                        instanceZeroR.setValue(i, Double.parseDouble(separador[i]));
+                    else
+                        instanceZeroR.setValue(i, separador[i]);
+                }
+                pred = this.algoritmoZeroR.getDadosZeroR().classifyInstance(instanceZeroR);
+                System.out.println("Predição: " + separador.length);
+
+
+                //Classificando dados
+                atribute = this.algoritmoZeroR.getDados().attribute(separador.length);
+                predClass = atribute.value((int) pred);
+                textAreaResult.setText("Predição: " + pred + "\n" + "Classificação " + predClass);
+            }
+            case 7 -> {
+                Instance instanceREPTree = new DenseInstance(this.algoritmoREPTree.getQuantidadeDeAtributos());
+                instanceREPTree.setDataset(this.algoritmoREPTree.getDados());
+                for (int i = 0; i < separador.length; i++) {
+                    if (verificarInteiro(separador[i]))
+                        instanceREPTree.setValue(i, Double.parseDouble(separador[i]));
+                    else
+                        instanceREPTree.setValue(i, separador[i]);
+                }
+                pred = this.algoritmoREPTree.getDadosREPTree().classifyInstance(instanceREPTree);
+                System.out.println("Predição: " + separador.length);
+
+
+                //Classificando dados
+                atribute = this.algoritmoREPTree.getDados().attribute(separador.length);
+                predClass = atribute.value((int) pred);
+                textAreaResult.setText("Predição: " + pred + "\n" + "Classificação " + predClass);
+            }
+            case 8 -> {
+                Instance instanceLMT = new DenseInstance(this.algoritmoLMT.getQuantidadeDeAtributos());
+                instanceLMT.setDataset(this.algoritmoLMT.getDados());
+                for (int i = 0; i < separador.length; i++) {
+                    if (verificarInteiro(separador[i]))
+                        instanceLMT.setValue(i, Double.parseDouble(separador[i]));
+                    else
+                        instanceLMT.setValue(i, separador[i]);
+                }
+                pred = this.algoritmoLMT.getDadosLMT().classifyInstance(instanceLMT);
+                System.out.println("Predição: " + separador.length);
+
+
+                //Classificando dados
+                atribute = this.algoritmoLMT.getDados().attribute(separador.length);
+                predClass = atribute.value((int) pred);
+                textAreaResult.setText("Predição: " + pred + "\n" + "Classificação " + predClass);
+            }
+        }
+
+
+
+    }
+
+    private boolean verificarInteiro(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
 
@@ -521,10 +778,14 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        labelMatrizConfusao.setVisible(false);
         labelArvore.setVisible(false);
+        labelMatrizConfusao.setVisible(false);
 
 
+        textFieldUser.setPromptText("Digite a entrada de dados do data set separado por virgula," +
+                "\n\r os dados de entrada deve conter todos os atributos" +
+                "\n\r menos o atributo de classificação." +
+                "\n\r Exemplo: 23,F,HIGH,HIGH,25.355");
         //TextArea
         matrix.setEditable(false);
         matrix.setVisible(false);
@@ -535,31 +796,35 @@ public class Controller implements Initializable {
         labelImprimirArvore.setEditable(false);
         labelImprimirArvore.setVisible(false);
 
+        textAreaResult.setVisible(false);
+        textAreaResult.setEditable(false);
 
+        textFieldUser.setVisible(false);
         //buttons
-        String styleButton = "-fx-padding: 8 15 15 15;\n" +
-                "                -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                "                -fx-background-radius: 8;\n" +
-                "                -fx-background-color:\n" +
-                "                linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),\n" +
-                "        #9d4024,\n" +
-                "        #d86e3a,\n" +
-                "                        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);\n" +
-                "                -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
-                "                -fx-font-weight: bold;\n" +
-                "                -fx-font-size: 1.1em;";
+        String styleButton = """
+                -fx-padding: 8 15 15 15;
+                                -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+                                -fx-background-radius: 8;
+                                -fx-background-color:
+                                linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+                        #9d4024,
+                        #d86e3a,
+                                        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+                                -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+                                -fx-font-weight: bold;
+                                -fx-font-size: 1.1em;""";
         arvDecisao.setStyle(styleButton);
         arvDecisao.setVisible(false);
 
 
-        String styleButtonGeral = "-fx-background-color: \n" +
-                "        #c3c4c4,\n" +
-                "        linear-gradient(#d6d6d6 50%, white 100%),\n" +
-                "        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);\n" +
-                "    -fx-background-radius: 30;\n" +
-                "    -fx-background-insets: 0,1,1;\n" +
-                "    -fx-text-fill: black;\n" +
-                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );";
+        String styleButtonGeral = """
+                -fx-background-color: #c3c4c4,
+                        linear-gradient(#d6d6d6 50%, white 100%),
+                        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+                    -fx-background-radius: 30;
+                    -fx-background-insets: 0,1,1;
+                    -fx-text-fill: black;
+                    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );""";
 
         buttonNaive.setStyle(styleButtonGeral);
         buttonJ48.setStyle(styleButtonGeral);
@@ -570,6 +835,8 @@ public class Controller implements Initializable {
         buttonLWL.setStyle(styleButtonGeral);
         buttonREPTree.setStyle(styleButtonGeral);
 
+
+        butttonClassifcar.setVisible(false);
 
     }
 }

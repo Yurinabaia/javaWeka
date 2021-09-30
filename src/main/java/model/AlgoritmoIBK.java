@@ -20,6 +20,13 @@ public class AlgoritmoIBK {
         return dadosIbk;
     }
 
+    public Instances getDados() {
+        return dados;
+    }
+
+    public int getQuantidadeDeAtributos() {
+        return quantidadeDeAtributos;
+    }
 
     public  AlgoritmoIBK (Instances dados, int quantidadeDeAtributos)
     {
@@ -33,7 +40,7 @@ public class AlgoritmoIBK {
         Instances multIbk = new Instances(dados);
         Instance new_list=new DenseInstance(quantidadeDeAtributos);
         new_list.setDataset(dados);
-        
+
         /*new_list.setValue(0,7.2);
         new_list.setValue(1,3.5);
         new_list.setValue(2,8.2);
