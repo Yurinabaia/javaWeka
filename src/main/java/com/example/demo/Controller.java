@@ -535,12 +535,14 @@ public class Controller implements Initializable {
         }
         catch (Exception ex)
         {
+            textFieldUser.setText("");
+
+            textAreaResult.setText("");
+            textAreaResult.setVisible(false);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Os dados de classificação não é compativel com dataset !!", ButtonType.OK);
             alert.showAndWait();
             ex.printStackTrace();
-            textAreaResult.setText("");
-            textFieldUser.setText("");
-            butttonClassifcar.setVisible(false);
+
         }
     }
 
@@ -782,10 +784,11 @@ public class Controller implements Initializable {
         labelMatrizConfusao.setVisible(false);
 
 
-        textFieldUser.setPromptText("Digite a entrada de dados do data set separado por virgula," +
-                "\n\r os dados de entrada deve conter todos os atributos" +
-                "\n\r menos o atributo de classificação." +
-                "\n\r Exemplo: 23,F,HIGH,HIGH,25.355");
+        textFieldUser.setPromptText("""
+                Digite a entrada de dados do data set separado por virgula,
+                \r os dados de entrada deve conter todos os atributos,
+                \r menos o atributo de classificação.
+                \r Exemplo: 23,F,HIGH,HIGH,25.355""");
         //TextArea
         matrix.setEditable(false);
         matrix.setVisible(false);
