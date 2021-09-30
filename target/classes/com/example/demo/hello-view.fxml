@@ -47,6 +47,11 @@
       <TextField fx:id="textFieldUser" alignment="TOP_LEFT" cache="true" layoutX="360.0" layoutY="46.0" prefHeight="84.0" prefWidth="338.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px; -fx-border-color: orange;" />
       <TextArea fx:id="textAreaResult" layoutX="360.0" layoutY="190.0" prefHeight="47.0" prefWidth="338.0" />
       <Button fx:id="butttonClassifcar" layoutX="599.0" layoutY="135.0" mnemonicParsing="false" onAction="#pressClassificar" prefHeight="25.0" prefWidth="98.0" text="Classificar" />
+      <Label fx:id="labelIfo" layoutX="717.0" layoutY="6.0" text="Informações">
+         <font>
+            <Font name="Times New Roman Bold Italic" size="17.0" />
+         </font>
+      </Label>
 
    </children>
 </AnchorPane>

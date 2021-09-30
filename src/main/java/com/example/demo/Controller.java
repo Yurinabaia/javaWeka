@@ -38,6 +38,8 @@ public class Controller implements Initializable {
     @FXML
     private Label labelMatrizConfusao;
     @FXML
+    private Label labelIfo;
+    @FXML
     private  TextArea labelImprimirArvore;
     @FXML
     private TextArea matrix;
@@ -112,6 +114,7 @@ public class Controller implements Initializable {
         arvDecisao.setVisible(false);
         butttonClassifcar.setVisible(false);
         labelMatrizConfusao.setVisible(false);
+        labelIfo.setVisible(false);
 
     }
     //Algoritmos Lazy
@@ -130,6 +133,8 @@ public class Controller implements Initializable {
                 textDados.setVisible(true);
                 matrix.setVisible(true);
                 labelMatrizConfusao.setVisible(true);
+                labelIfo.setVisible(true);
+                labelIfo.setText("Informações Do Algoritmo Naive Bayses");
 
                 algBasin.lazyBaysiano();
                 matrix.setText(algBasin.getEvDados().toMatrixString(""));
@@ -177,6 +182,8 @@ public class Controller implements Initializable {
                 matrix.setText(algIbk.getEvoInicial().toMatrixString(""));
                 matrix.setVisible(true);
                 labelMatrizConfusao.setVisible(true);
+                labelIfo.setVisible(true);
+                labelIfo.setText("Informações Do Algoritmo IBK");
 
 
                 textDados.setVisible(true);
@@ -223,6 +230,8 @@ public class Controller implements Initializable {
                 matrix.setText(algKStar.getEvoInicial().toMatrixString(""));
                 matrix.setVisible(true);
                 labelMatrizConfusao.setVisible(true);
+                labelIfo.setVisible(true);
+                labelIfo.setText("Informações Do Algoritmo KStar");
 
 
                 textDados.setVisible(true);
@@ -268,6 +277,8 @@ public class Controller implements Initializable {
                 matrix.setText(algLWL.getEvoInicial().toMatrixString(""));
                 matrix.setVisible(true);
                 labelMatrizConfusao.setVisible(true);
+                labelIfo.setVisible(true);
+                labelIfo.setText("Informações Do Algoritmo LWL");
 
 
                 textDados.setVisible(true);
@@ -782,7 +793,7 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         labelArvore.setVisible(false);
         labelMatrizConfusao.setVisible(false);
-
+        labelIfo.setVisible(false);
 
         textFieldUser.setPromptText("""
                 Digite a entrada de dados do data set separado por virgula,
