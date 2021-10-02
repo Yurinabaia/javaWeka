@@ -16,6 +16,7 @@ de classificação do https://www.kaggle.com
 
 ### Run
 
+<li> Executar wekaAlgoritmos.exe
 <li> Escolher algoritmo
 <li> Encontra arquivos .arff ou .csv
 <li> Caso algoritmo for tree é possivel visualizar arvore de decisão.
