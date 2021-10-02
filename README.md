@@ -18,6 +18,6 @@ de classificação do https://www.kaggle.com
 
 <li> Executar wekaAlgoritmos.exe
 <li> Escolher algoritmo
-<li> Encontra arquivos .arff ou .csv
+<li> Encontra arquivo .arff ou .csv
 <li> Caso algoritmo for tree é possivel visualizar arvore de decisão.
 <li> Utilize os dados do dataset para classificar uma nova instancia.
