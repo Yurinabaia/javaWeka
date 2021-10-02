@@ -8,7 +8,7 @@ Ele contém ferramentas para preparação de dados, classificação, regressão,
 Neste repositorio é composto pelos algoritmo de <b>aprendizagem supervisionado</b> da <b>API do WEKA</b>.
 
 
-### Testa data set:
+### Teste data set:
 
 Temos dois exemplos de dataset para testes, com nomes drugClassificao.arff e drugRegressao.arff, sendo de regressão e outro de classificação, pode testar qualquer dataset
 de classificação do https://www.kaggle.com
